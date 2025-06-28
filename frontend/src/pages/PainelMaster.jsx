@@ -1,1 +1,0 @@
-// Painel principal do administrador master

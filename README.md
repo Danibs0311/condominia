@@ -1,14 +1,10 @@
-# CondominIA
+# CondominIA ERP
 
-ERP Condominial para gestão de condomínios de até 16 unidades.
+Sistema ERP para gestão de condomínios de até 16 unidades. Desenvolvido com:
 
-## Frontend
-React + Tailwind CSS (PWA)
+- **Frontend**: React + Vite + TailwindCSS
+- **Backend**: Django + Django REST Framework
+- **Banco de Dados**: PostgreSQL (via Docker)
 
-## Backend
-FastAPI + PostgreSQL
+## Estrutura
 
-## Setup
-- Configure o PostgreSQL no arquivo `backend/database.py`
-- Use `npm install` e `npm run dev` no `frontend/`
-- Use `uvicorn backend.main:app --reload` para rodar o backend
