@@ -12,6 +12,12 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait-primary",
     icons: [
       {
+        src: "/logo_condominia.png",
+        sizes: "any",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
         src: "/icon-192.png",
         sizes: "192x192",
         type: "image/png",

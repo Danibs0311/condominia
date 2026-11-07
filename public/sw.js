@@ -15,8 +15,8 @@ self.addEventListener("push", (event) => {
     title: "CondominIA • Atualização",
     body: "Você tem uma nova atualização do condomínio.",
     url: "/morador",
-    icon: "/icon",
-    badge: "/icon",
+    icon: "/logo_condominia.png",
+    badge: "/logo_condominia.png",
   };
 
   if (event.data) {
@@ -29,8 +29,8 @@ self.addEventListener("push", (event) => {
 
   const options = {
     body: data.body,
-    icon: data.icon || "/icon",
-    badge: data.badge || "/icon",
+    icon: data.icon || "/logo_condominia.png",
+    badge: data.badge || "/logo_condominia.png",
     vibrate: [100, 50, 100],
     data: {
       url: data.url || "/morador",

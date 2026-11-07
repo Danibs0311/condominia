@@ -27,6 +27,16 @@ export const metadata: Metadata = {
   description: "A plataforma de gestão, rateio transparente e avisos para condomínios enxutos.",
   applicationName: "CondominIA",
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: "/logo_condominia.png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/logo_condominia.png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

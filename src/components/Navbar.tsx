@@ -87,9 +87,11 @@ export function Navbar({
 
             {/* Logo e Nome do SaaS */}
             <Link href={homeHref} className="flex items-center gap-2">
-              <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
-                <Building2 className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
+              <img
+                src="/logo_condominia.png"
+                alt="CondominIA"
+                className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl object-contain shadow-xs"
+              />
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-lg sm:text-xl font-bold tracking-tight text-zinc-900">
@@ -144,9 +146,11 @@ export function Navbar({
             {/* Header do Menu */}
             <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white font-bold">
-                  <Building2 className="h-5 w-5" />
-                </div>
+                <img
+                  src="/logo_condominia.png"
+                  alt="CondominIA"
+                  className="h-10 w-10 rounded-xl object-contain shadow-xs"
+                />
                 <div>
                   <h3 className="text-sm font-bold text-zinc-900">{userName}</h3>
                   <p className="text-xs text-zinc-500">{condoName}</p>

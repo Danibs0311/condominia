@@ -105,9 +105,11 @@ export default function DemoSalesLandingPage() {
       <header className="sticky top-0 z-40 border-b border-zinc-200/80 bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-blue-600 text-white shadow-lg shadow-purple-500/25">
-              <Building2 className="h-5 w-5" />
-            </div>
+            <img
+              src="/logo_condominia.png"
+              alt="CondominIA Logo"
+              className="h-10 w-10 rounded-2xl object-contain shadow-md"
+            />
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xl font-black tracking-tight text-zinc-900">
@@ -757,9 +759,11 @@ export default function DemoSalesLandingPage() {
       <footer className="border-t border-zinc-200 bg-white py-10 text-xs text-zinc-500">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-600 text-white font-bold text-xs">
-              <Building2 className="h-4 w-4" />
-            </div>
+            <img
+              src="/logo_condominia.png"
+              alt="CondominIA Logo"
+              className="h-7 w-7 rounded-lg object-contain shadow-2xs"
+            />
             <span className="font-extrabold text-zinc-900">CondominIA</span>
             <span className="text-zinc-400">• DGTECH Soluções Tecnológicas</span>
           </div>

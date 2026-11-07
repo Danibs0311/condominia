@@ -121,9 +121,11 @@ export default function MasterLoginPage() {
     <div className="flex min-h-screen flex-col justify-center bg-gradient-to-b from-purple-50/60 via-white to-zinc-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         {/* Brand */}
-        <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-600 text-white shadow-xl shadow-purple-500/25">
-          <Building2 className="h-8 w-8" />
-        </div>
+        <img
+          src="/logo_condominia.png"
+          alt="CondominIA Logo"
+          className="mx-auto h-16 w-16 rounded-2xl object-contain shadow-md"
+        />
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-zinc-900">
           Condomin<span className="text-purple-600">IA</span>
         </h1>
