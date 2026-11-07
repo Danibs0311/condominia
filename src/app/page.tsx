@@ -17,6 +17,7 @@ import {
   AlertCircle,
   KeyRound,
   Check,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function UnifiedLoginPage() {
@@ -124,11 +125,17 @@ export default function UnifiedLoginPage() {
     <div className="flex min-h-screen flex-col justify-center bg-gradient-to-b from-blue-50/60 via-white to-zinc-50 py-10 px-4 sm:px-6 lg:px-8">
       {/* Brand Header */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <img
-          src="/logo_condominia.png"
-          alt="CondominIA Logo"
-          className="mx-auto h-16 w-16 rounded-2xl object-contain shadow-md"
-        />
+        <Link
+          href="/master/login"
+          title="Acesso Administrativo Master"
+          className="inline-block transition hover:scale-105 active:scale-95 cursor-pointer"
+        >
+          <img
+            src="/logo_condominia.png"
+            alt="CondominIA Logo"
+            className="mx-auto h-16 w-16 rounded-2xl object-contain shadow-md"
+          />
+        </Link>
         <h1 className="mt-3 text-3xl font-black tracking-tight text-zinc-900">
           Condomin<span className="text-blue-600">IA</span>
         </h1>
@@ -236,6 +243,17 @@ export default function UnifiedLoginPage() {
             className="font-bold text-blue-600 hover:text-blue-700 hover:underline transition"
           >
             Acessar Demonstração
+          </Link>
+        </div>
+
+        {/* Link Reservado ao Dono do SaaS (Master) */}
+        <div className="mt-5 text-center">
+          <Link
+            href="/master/login"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 hover:text-purple-700 transition"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            <span>Acesso Administrativo Master</span>
           </Link>
         </div>
       </div>
