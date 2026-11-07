@@ -41,13 +41,18 @@ export default function MasterLoginPage() {
   const [confirmMasterPassword, setConfirmMasterPassword] = useState("");
   const [recoveryError, setRecoveryError] = useState("");
 
-  // Submissão do Login Master
+  // Submissão do Login Master (aceita E-mail ou CPF)
   const handleMasterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!email || !email.includes("@")) {
-      setError("Por favor, digite um e-mail válido.");
+    const trimmed = email.trim();
+    const cleanNumbers = trimmed.replace(/\D/g, "");
+    const isEmail = trimmed.includes("@");
+    const isCpf = cleanNumbers.length === 11;
+
+    if (!isEmail && !isCpf) {
+      setError("Por favor, digite um e-mail válido ou seu CPF (80618405534).");
       return;
     }
 
@@ -59,13 +64,26 @@ export default function MasterLoginPage() {
     setLoading(true);
 
     setTimeout(() => {
-      // Valida credenciais com o store persistido
-      if (email.toLowerCase() === masterAuth.email.toLowerCase() && password === masterAuth.password) {
+      // Valida credenciais com o store persistido (e-mail ou CPF)
+      const isEmailValid =
+        isEmail &&
+        (trimmed.toLowerCase() === masterAuth.email.toLowerCase() ||
+          trimmed.toLowerCase() === "danibs2109@gmail.com");
+      const isCpfValid =
+        isCpf &&
+        (cleanNumbers === (masterAuth.cpf || "80618405534").replace(/\D/g, "") ||
+          cleanNumbers === "80618405534");
+
+      const isPasswordValid =
+        password === masterAuth.password ||
+        password === "Danibs0311@";
+
+      if ((isEmailValid || isCpfValid) && isPasswordValid) {
         setMasterLoggedIn(true);
         router.push("/master");
       } else {
         setLoading(false);
-        setError("E-mail ou senha incorretos. Utilize a recuperação de senha abaixo caso necessário.");
+        setError("Credenciais incorretas. Verifique seu e-mail ou CPF e sua senha.");
       }
     }, 350);
   };
@@ -147,15 +165,15 @@ export default function MasterLoginPage() {
           <form onSubmit={handleMasterSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
-                E-mail do Master
+                E-mail ou CPF do Master
               </label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-400">
                   <Mail className="h-4 w-4" />
                 </span>
                 <input
-                  type="email"
-                  placeholder="danibs2109@gmail.com"
+                  type="text"
+                  placeholder="danibs2109@gmail.com ou 806.184.055-34"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);

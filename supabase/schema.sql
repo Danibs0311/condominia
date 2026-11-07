@@ -14,6 +14,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE TABLE IF NOT EXISTS master_admins (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email TEXT UNIQUE NOT NULL,
+    cpf VARCHAR(14) UNIQUE,
     password_hash TEXT NOT NULL,
     full_name TEXT NOT NULL DEFAULT 'Administrador Master DGTECH',
     phone TEXT,
@@ -271,13 +272,16 @@ FOR INSERT WITH CHECK (bucket_id = 'notices');
 -- ==============================================================================
 
 -- A. Administrador Master DGTECH
-INSERT INTO master_admins (email, password_hash, full_name, phone)
+INSERT INTO master_admins (email, cpf, password_hash, full_name, phone)
 VALUES (
     'danibs2109@gmail.com',
+    '80618405534',
     crypt('Danibs0311@', gen_salt('bf')),
     'Administrador Master DGTECH',
     '+55 (75) 98848-1160'
-) ON CONFLICT (email) DO UPDATE SET password_hash = crypt('Danibs0311@', gen_salt('bf'));
+) ON CONFLICT (email) DO UPDATE SET 
+    cpf = EXCLUDED.cpf,
+    password_hash = EXCLUDED.password_hash;
 
 -- B. Condomínio 1: Condomínio Residencial Piloto
 INSERT INTO condominiums (

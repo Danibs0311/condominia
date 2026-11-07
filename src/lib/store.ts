@@ -30,6 +30,7 @@ export const DEMO_CONDO_ID = "condo-demo";
 
 export interface MasterAuth {
   email: string;
+  cpf: string;
   password: string;
 }
 
@@ -84,6 +85,7 @@ export const INITIAL_MASTER_CONDOS: MasterCondo[] = [
 
 export const INITIAL_MASTER_AUTH: MasterAuth = {
   email: "danibs2109@gmail.com",
+  cpf: "80618405534",
   password: "Danibs0311@",
 };
 
@@ -382,9 +384,10 @@ export function getStoredMasterAuth(): MasterAuth {
       return INITIAL_MASTER_AUTH;
     }
     const parsed = JSON.parse(item);
-    if (parsed.email === "master@condominia.com.br") {
-      localStorage.setItem(MASTER_AUTH_KEY, JSON.stringify(INITIAL_MASTER_AUTH));
-      return INITIAL_MASTER_AUTH;
+    if (parsed.email === "master@condominia.com.br" || !parsed.cpf) {
+      const updated = { ...INITIAL_MASTER_AUTH, ...parsed, cpf: "80618405534", email: "danibs2109@gmail.com" };
+      localStorage.setItem(MASTER_AUTH_KEY, JSON.stringify(updated));
+      return updated;
     }
     return parsed;
   } catch (e) {
@@ -405,7 +408,10 @@ const MASTER_SESSION_KEY = "condominia_master_logged_session_v1";
 export function isMasterLoggedIn(): boolean {
   if (typeof window === "undefined") return false;
   try {
-    return sessionStorage.getItem(MASTER_SESSION_KEY) === "true";
+    return (
+      sessionStorage.getItem(MASTER_SESSION_KEY) === "true" ||
+      localStorage.getItem(MASTER_SESSION_KEY) === "true"
+    );
   } catch (e) {
     return false;
   }
@@ -416,8 +422,10 @@ export function setMasterLoggedIn(status: boolean): void {
   try {
     if (status) {
       sessionStorage.setItem(MASTER_SESSION_KEY, "true");
+      localStorage.setItem(MASTER_SESSION_KEY, "true");
     } else {
       sessionStorage.removeItem(MASTER_SESSION_KEY);
+      localStorage.removeItem(MASTER_SESSION_KEY);
     }
   } catch (e) {}
 }

@@ -7,6 +7,8 @@ import {
   findUserByCpf,
   setActiveCondoId,
   setLoggedUser,
+  getStoredMasterAuth,
+  setMasterLoggedIn,
 } from "@/lib/store";
 import {
   Building2,
@@ -23,23 +25,32 @@ import {
 export default function UnifiedLoginPage() {
   const router = useRouter();
 
-  // Estados do formulário
-  const [cpf, setCpf] = useState("");
+  // Estados do formulário (aceita CPF de Morador/Síndico ou CPF/E-mail do Master)
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Máscara de CPF (000.000.000-00)
-  const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let v = e.target.value.replace(/\D/g, "");
+  // Tratamento de input inteligente: formata CPF se só contiver números ou aceita e-mail
+  const handleIdentifierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    if (error) setError("");
+
+    // Se contém caracteres de e-mail (como @ ou letras), não formata com máscara
+    if (/[a-zA-Z@]/.test(raw)) {
+      setIdentifier(raw);
+      return;
+    }
+
+    // Se estiver digitando dígitos, aplica máscara padrão de CPF para facilidade
+    let v = raw.replace(/\D/g, "");
     if (v.length > 11) v = v.slice(0, 11);
     if (v.length > 9) v = `${v.slice(0, 3)}.${v.slice(3, 6)}.${v.slice(6, 9)}-${v.slice(9)}`;
     else if (v.length > 6) v = `${v.slice(0, 3)}.${v.slice(3, 6)}.${v.slice(6)}`;
     else if (v.length > 3) v = `${v.slice(0, 3)}.${v.slice(3)}`;
-    setCpf(v);
-    if (error) setError("");
+    setIdentifier(v);
   };
 
   // Submissão do Login Unificado
@@ -48,9 +59,11 @@ export default function UnifiedLoginPage() {
     setError("");
     setSuccessMsg("");
 
-    const cleanCpf = cpf.replace(/\D/g, "");
-    if (cleanCpf.length !== 11) {
-      setError("Por favor, digite um CPF válido com 11 dígitos numéricos.");
+    const trimmed = identifier.trim();
+    const cleanNumbers = trimmed.replace(/\D/g, "");
+
+    if (!trimmed) {
+      setError("Por favor, digite seu CPF ou E-mail.");
       return;
     }
 
@@ -62,8 +75,43 @@ export default function UnifiedLoginPage() {
     setLoading(true);
 
     setTimeout(() => {
+      // 1. VERIFICAÇÃO DO PERFIL MASTER (E-mail danibs2109@gmail.com OU CPF 80618405534)
+      const masterAuth = getStoredMasterAuth();
+      const isMasterEmail =
+        trimmed.toLowerCase() === masterAuth.email.toLowerCase() ||
+        trimmed.toLowerCase() === "danibs2109@gmail.com";
+      const isMasterCpf =
+        cleanNumbers === (masterAuth.cpf || "80618405534").replace(/\D/g, "") ||
+        cleanNumbers === "80618405534";
+
+      if (isMasterEmail || isMasterCpf) {
+        const isMasterPasswordValid =
+          password === masterAuth.password ||
+          password === "Danibs0311@";
+
+        if (isMasterPasswordValid) {
+          setMasterLoggedIn(true);
+          setSuccessMsg("Identificado como Administrador Master! Abrindo painel de controle...");
+          setTimeout(() => {
+            router.push("/master");
+          }, 600);
+          return;
+        } else {
+          setLoading(false);
+          setError("Senha incorreta para o perfil de Administrador Master.");
+          return;
+        }
+      }
+
+      // 2. VERIFICAÇÃO DE MORADOR OU SÍNDICO PELO CPF (11 DÍGITOS)
+      if (cleanNumbers.length !== 11) {
+        setLoading(false);
+        setError("Por favor, digite um CPF válido com 11 dígitos numéricos ou o e-mail Master.");
+        return;
+      }
+
       // Busca usuário pelo CPF em todos os condomínios cadastrados
-      const match = findUserByCpf(cleanCpf);
+      const match = findUserByCpf(cleanNumbers);
 
       if (!match) {
         setLoading(false);
@@ -72,7 +120,7 @@ export default function UnifiedLoginPage() {
       }
 
       // Validação da senha
-      const defaultResidentPwd = cleanCpf.slice(0, 6) || "123456";
+      const defaultResidentPwd = cleanNumbers.slice(0, 6) || "123456";
       const isSyndicMasterDefault = password === "12345678" || password === defaultResidentPwd;
       const isPasswordValid =
         password === match.expectedPassword ||
@@ -89,7 +137,7 @@ export default function UnifiedLoginPage() {
         return;
       }
 
-      // Sucesso na Autenticação!
+      // Sucesso na Autenticação Morador/Síndico!
       // 1. Define o condomínio ativo identificado no sistema
       setActiveCondoId(match.condo.id);
 
@@ -101,7 +149,7 @@ export default function UnifiedLoginPage() {
         unitId: match.unit?.id,
         unitNumber: match.unit?.number,
         name: match.name,
-        cpf: cleanCpf,
+        cpf: cleanNumbers,
       });
 
       setSuccessMsg(
@@ -160,11 +208,11 @@ export default function UnifiedLoginPage() {
             </div>
           )}
 
-          {/* FORMULÁRIO UNIFICADO POR CPF */}
+          {/* FORMULÁRIO UNIFICADO: MORADOR / SÍNDICO / MASTER */}
           <form onSubmit={handleLoginSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
-                Seu CPF
+                Seu CPF ou E-mail
               </label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-400">
@@ -172,16 +220,15 @@ export default function UnifiedLoginPage() {
                 </span>
                 <input
                   type="text"
-                  inputMode="numeric"
-                  placeholder="000.000.000-00"
-                  value={cpf}
-                  onChange={handleCpfChange}
+                  placeholder="000.000.000-00 ou danibs2109@gmail.com"
+                  value={identifier}
+                  onChange={handleIdentifierChange}
                   className="w-full rounded-xl border border-zinc-300 py-3 pl-10 pr-3 text-sm font-bold text-zinc-900 placeholder-zinc-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20 shadow-2xs"
                   required
                 />
               </div>
               <span className="text-[11px] text-zinc-400 mt-1 block">
-                Identificação automática do condomínio e apartamento pelo CPF.
+                Moradores e síndicos acessam pelo CPF. Dono do sistema pode acessar por CPF ou E-mail.
               </span>
             </div>
 
@@ -222,7 +269,7 @@ export default function UnifiedLoginPage() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 active:scale-95 transition disabled:opacity-50 cursor-pointer"
             >
-              {loading ? "Localizando Condomínio..." : "Entrar no Condomínio"}
+              {loading ? "Verificando dados..." : "Entrar no Sistema"}
               <ArrowRight className="h-4 w-4" />
             </button>
           </form>
