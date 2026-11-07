@@ -343,24 +343,68 @@ INSERT INTO condominiums (
 
 -- D. As 16 Unidades do Condomínio Piloto
 INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
-VALUES
-    ('u1', 'condo-1', '101', 'Carlos Mendes', '222.222.222-22', '(11) 98765-4321', false, false, 'paid', 232.50),
-    ('u2', 'condo-1', '102', 'Ana Souza', '222.222.222-23', '(11) 98765-4322', false, false, 'paid', 232.50),
-    ('u3', 'condo-1', '103', 'Bruno Lima', '222.222.222-24', '(11) 98765-4323', false, false, 'paid', 232.50),
-    ('u4', 'condo-1', '104', 'Carla Dias', '222.222.222-25', '(11) 98765-4324', false, false, 'pending', 232.50),
-    ('u5', 'condo-1', '201', 'Diego Rocha', '222.222.222-26', '(11) 98765-4325', false, false, 'paid', 232.50),
-    ('u6', 'condo-1', '202', 'Eduarda Ramos', '222.222.222-27', '(11) 98765-4326', false, false, 'paid', 232.50),
-    ('u7', 'condo-1', '203', 'Fábio Santos', '222.222.222-28', '(11) 98765-4327', false, false, 'paid', 232.50),
-    ('u8', 'condo-1', '204', 'Gabriela Castro', '222.222.222-29', '(11) 98765-4328', false, false, 'paid', 232.50),
-    ('u9', 'condo-1', '301', 'Helena Faria', '222.222.222-30', '(11) 98765-4329', false, false, 'paid', 232.50),
-    ('u10', 'condo-1', '302', 'Igor Peixoto', '222.222.222-31', '(11) 98765-4330', false, false, 'pending', 232.50),
-    ('u11', 'condo-1', '303', 'Julia Martins', '222.222.222-32', '(11) 98765-4331', false, false, 'paid', 232.50),
-    ('u12', 'condo-1', '304', 'Lucas Silveira', '222.222.222-33', '(11) 98765-4332', false, false, 'paid', 232.50),
-    ('u13', 'condo-1', '401', 'Mariana Freitas', '222.222.222-34', '(11) 98765-4333', false, false, 'paid', 232.50),
-    ('u14', 'condo-1', '402', 'Nelson Pires', '222.222.222-35', '(11) 98765-4334', false, false, 'paid', 232.50),
-    ('u15', 'condo-1', '403', 'Otávio Borges', '222.222.222-36', '(11) 98765-4335', false, false, 'pending', 232.50),
-    ('u16', 'condo-1', '404', 'Geraldo Alencar (Síndico)', '111.111.111-11', '(11) 98888-7777', true, true, 'paid', 150.00)
-ON CONFLICT (id) DO NOTHING;
+VALUES ('u1', 'condo-1', '101', 'Carlos Mendes', '222.222.222-22', '(11) 98765-4321', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u2', 'condo-1', '102', 'Ana Souza', '222.222.222-23', '(11) 98765-4322', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u3', 'condo-1', '103', 'Bruno Lima', '222.222.222-24', '(11) 98765-4323', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u4', 'condo-1', '104', 'Carla Dias', '222.222.222-25', '(11) 98765-4324', false, false, 'pending', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u5', 'condo-1', '201', 'Diego Rocha', '222.222.222-26', '(11) 98765-4325', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u6', 'condo-1', '202', 'Eduarda Ramos', '222.222.222-27', '(11) 98765-4326', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u7', 'condo-1', '203', 'Fábio Santos', '222.222.222-28', '(11) 98765-4327', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u8', 'condo-1', '204', 'Gabriela Castro', '222.222.222-29', '(11) 98765-4328', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u9', 'condo-1', '301', 'Helena Faria', '222.222.222-30', '(11) 98765-4329', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u10', 'condo-1', '302', 'Igor Peixoto', '222.222.222-31', '(11) 98765-4330', false, false, 'pending', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u11', 'condo-1', '303', 'Julia Martins', '222.222.222-32', '(11) 98765-4331', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u12', 'condo-1', '304', 'Lucas Silveira', '222.222.222-33', '(11) 98765-4332', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u13', 'condo-1', '401', 'Mariana Freitas', '222.222.222-34', '(11) 98765-4333', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u14', 'condo-1', '402', 'Nelson Pires', '222.222.222-35', '(11) 98765-4334', false, false, 'paid', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u15', 'condo-1', '403', 'Otávio Borges', '222.222.222-36', '(11) 98765-4335', false, false, 'pending', 232.50)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
+
+INSERT INTO units (id, condo_id, unit_number, resident_name, resident_cpf, resident_phone, is_syndic, is_exempt_from_utilities, payment_status, current_amount)
+VALUES ('u16', 'condo-1', '404', 'Geraldo Alencar (Síndico)', '111.111.111-11', '(11) 98888-7777', true, true, 'paid', 150.00)
+ON CONFLICT (id) DO UPDATE SET resident_name = EXCLUDED.resident_name;
 
 -- E. Fechamento Atual (Novembro/2026) e Histórico Contábil
 INSERT INTO monthly_closings (
