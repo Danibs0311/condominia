@@ -25,8 +25,8 @@ export default function MasterLoginPage() {
   const { masterAuth, updateMasterPassword } = useMasterStore();
 
   // Campos de Login do Master
-  const [email, setEmail] = useState("master@condominia.com.br");
-  const [password, setPassword] = useState("adminmaster123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -153,7 +153,7 @@ export default function MasterLoginPage() {
                 </span>
                 <input
                   type="email"
-                  placeholder="master@condominia.com.br"
+                  placeholder="danibs2109@gmail.com"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);

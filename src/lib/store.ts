@@ -83,8 +83,8 @@ export const INITIAL_MASTER_CONDOS: MasterCondo[] = [
 ];
 
 export const INITIAL_MASTER_AUTH: MasterAuth = {
-  email: "master@condominia.com.br",
-  password: "adminmaster123",
+  email: "danibs2109@gmail.com",
+  password: "Danibs0311@",
 };
 
 // Gerador de dados isolados para cada novo condomínio
@@ -381,7 +381,12 @@ export function getStoredMasterAuth(): MasterAuth {
       localStorage.setItem(MASTER_AUTH_KEY, JSON.stringify(INITIAL_MASTER_AUTH));
       return INITIAL_MASTER_AUTH;
     }
-    return JSON.parse(item);
+    const parsed = JSON.parse(item);
+    if (parsed.email === "master@condominia.com.br") {
+      localStorage.setItem(MASTER_AUTH_KEY, JSON.stringify(INITIAL_MASTER_AUTH));
+      return INITIAL_MASTER_AUTH;
+    }
+    return parsed;
   } catch (e) {
     return INITIAL_MASTER_AUTH;
   }

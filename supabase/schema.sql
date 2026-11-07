@@ -273,11 +273,11 @@ FOR INSERT WITH CHECK (bucket_id = 'notices');
 -- A. Administrador Master DGTECH
 INSERT INTO master_admins (email, password_hash, full_name, phone)
 VALUES (
-    'master@condominia.com.br',
-    crypt('adminmaster123', gen_salt('bf')),
+    'danibs2109@gmail.com',
+    crypt('Danibs0311@', gen_salt('bf')),
     'Administrador Master DGTECH',
     '+55 (75) 98848-1160'
-) ON CONFLICT (email) DO NOTHING;
+) ON CONFLICT (email) DO UPDATE SET password_hash = crypt('Danibs0311@', gen_salt('bf'));
 
 -- B. Condomínio 1: Condomínio Residencial Piloto
 INSERT INTO condominiums (
